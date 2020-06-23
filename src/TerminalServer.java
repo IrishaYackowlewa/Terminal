@@ -9,23 +9,23 @@ public class TerminalServer {
         this.balance = balance;
     }
 
-    public void replenishAccount(int sum) throws Exception{
-        if (sum%100 == 0)
-            if (sum > 0)
-                this.balance += sum;
-            else throw new Exception();//уточнить какой именно сумма не корректная
-        else throw new Exception();//уточнить какой именно сумма не кратна 100
+    public void replenishAccount(int amount) throws Exception{
+        if (amount%100 == 0)
+            if (amount >= 0)
+                this.balance += amount;
+            else throw new NegativeAmountException();
+        else throw new IncorrectAmountException();
     }
 
-    public int withdrawMoney(int sum) throws Exception {
-        if (sum%100 == 0)
-            if (sum > 0)
-                if (this.balance - sum >= 0){
-                    this.balance -= sum;
-                    return sum;
+    public int withdrawMoney(int amount) throws Exception {
+        if (amount%100 == 0)
+            if (amount >= 0)
+                if (this.balance - amount >= 0){
+                    this.balance -= amount;
+                    return amount;
                 }
-                else throw new Exception();//уточнить какой именно не достаточно денег
-            else throw new Exception();//уточнить какой именно сумма не корректная
-        else throw new Exception();//уточнить какой именно сумма не кратна 100
+                else throw new NotEnoughMoneyException();
+            else throw new NegativeAmountException();
+        else throw new IncorrectAmountException();
     }
 }

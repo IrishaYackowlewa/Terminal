@@ -10,7 +10,7 @@ public class PinValidator {
         return valid;
     }
 
-    public boolean checkValid (int pin){
+    public boolean checkValid (int pin) throws Exception{
         if (this.pin == pin){
             numAttempts = 0;
             valid = true;
@@ -22,10 +22,9 @@ public class PinValidator {
                 valid = false;
                 return false;
             }
-            //else {
-                //внести время блокировки...
-            //}
+            else {
+                throw new AccountIsLockedException();
+            }
         }
-        return false;//кинуть исключение что что-то случилось
     }
 }
