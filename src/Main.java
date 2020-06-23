@@ -10,60 +10,50 @@ public class Main {
         Scanner in = new Scanner(System.in);
         System.out.println("Пожалуйста, введите пин-код: ");
 	    int pin = in.nextInt();
-	    boolean f = true;
-        while (f){
+	    boolean repeat = true;
+        while (repeat) {
             try {
-                if (pinVal.checkValid(pin)){
+                if (pinVal.checkValid(pin)) {
                     System.out.println("Выберете нужное действие ");
                     System.out.println("1 - Посмотреть баланс ");
                     System.out.println("2 - Пополнить счет ");
                     System.out.println("3 - Снять деньги ");
                     System.out.println("4 - Завершить обслуживание ");
                     int flag = in.nextInt();
-                     switch (flag){
-                         case (1):
-                             try {
-                                 user.checkBalance();
-                             } catch (AccountIsLockedException e) {
-                                 System.out.println("Извините. Система заблокированна. Попробуйте еще раз через ");
-                             } catch (Exception e) {
-                                 e.printStackTrace();//////
-                             }
-                             break;
-                         case (2):
-                             System.out.println("Введите сумму: ");
-                             int amount = in.nextInt();
-                             try {
-                                 user.replenishAccount(amount);
-                             } catch (AccountIsLockedException e) {
-                                 System.out.println("Извините. Система заблокированна. Попробуйте еще раз через ");
-                             } catch (Exception e) {
-                                 e.printStackTrace();////
-                             }
-                             break;
-                         case (3):
-                             System.out.println("Введите сумму, которую хотите снять: ");
-                             int sum = in.nextInt();
-                             try {
-                                 user.withdrawMoney(sum);
-                             } catch (AccountIsLockedException e) {
-                                 System.out.println("Извините. Система заблокированна. Попробуйте еще раз через ");
-                             } catch (Exception e) {
-                                 e.printStackTrace();////
-                             }
-                             break;
-                         case (4):
-                             f = false;
-                             break;
-                     }
-                }
-                else {
+                    switch (flag) {
+                        case (1):
+                            user.checkBalance();
+                            break;
+                        case (2):
+                            System.out.println("Введите сумму: ");
+                            int amount = in.nextInt();
+                            user.replenishAccount(amount);
+                            break;
+                        case (3):
+                            System.out.println("Введите сумму, которую хотите снять: ");
+                            int sum = in.nextInt();
+                            user.withdrawMoney(sum);
+                            break;
+                        case (4):
+                            repeat = false;
+                            in.close();
+                            pinVal.timer.cancel();//бред... бредятина
+                            break;
+                    }
+                } else {
                     System.out.println("Некорректный пин-код");
                     System.out.println("Пожалуйста, введите пин-код еще раз: ");
                     pin = in.nextInt();
                 }
             } catch (AccountIsLockedException e) {
                 System.out.println("Извините. Система заблокированна. Попробуйте еще раз через ");
+                pin = in.nextInt();
+            } catch (NotEnoughMoneyException e) {
+                System.out.println("Недостаточно денег на счете");
+            } catch (IncorrectAmountException e) {
+                System.out.println("Сумма должна быть кратна 100");
+            } catch (NegativeAmountException e) {
+                System.out.println("Сумма не должна быть отрицательной");
             } catch (Exception e) {
                 System.out.println("Ошибка системы. Попробуйте еще раз.");
             }
