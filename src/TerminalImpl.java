@@ -9,7 +9,7 @@ class TerminalImpl implements Terminal{
 
     @Override
     public void checkBalance () throws Exception{
-        if (pinValidator.isValid()){
+        if (!pinValidator.isBlock()){
             System.out.println(server.getBalance());
         }
         else throw new AccountIsLockedException();
@@ -17,7 +17,7 @@ class TerminalImpl implements Terminal{
 
     @Override
     public void withdrawMoney (int sum) throws Exception{
-        if (pinValidator.isValid()){
+        if (!pinValidator.isBlock()){
             server.withdrawMoney(sum);
         }
         else throw new AccountIsLockedException();
@@ -25,10 +25,18 @@ class TerminalImpl implements Terminal{
 
     @Override
     public void replenishAccount(int sum) throws Exception{
-        if (pinValidator.isValid()){
+        if (!pinValidator.isBlock()){
             server.replenishAccount(sum);
         }
         else throw new AccountIsLockedException();
+    }
+
+    public void stillTimeLeft (){
+        pinValidator.stillTimeLeft();
+    }
+
+    public void close (){
+        pinValidator.closeTimer();
     }
 
 }

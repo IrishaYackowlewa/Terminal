@@ -10,11 +10,11 @@ class Exceptions  extends Exception{
 class AccountIsLockedException  extends Exceptions{
 }
 
-//class IncorrectPinCodeException  extends Exceptions{
-//}
+class IncorrectPinCodeException  extends Exceptions{
+}
 
-//class NoAccessException  extends Exceptions{
-//}
+class finalException  extends Exceptions{
+}
 
 class NotEnoughMoneyException  extends Exceptions{
 }
